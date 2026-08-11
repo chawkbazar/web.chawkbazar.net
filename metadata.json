@@ -1,0 +1,6 @@
+{
+  "name": "KhaboKothay",
+  "description": "Restaurant discovery and deals app for Bangladesh (কোথায় খাবো?)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

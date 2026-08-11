@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User document storing role, contact details, and preferences",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["diner", "owner"] },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "languagePreference": { "type": "string", "enum": ["bn", "en"] },
+        "favorites": {
+          "type": "array",
+          "description": "Array of restaurant document IDs saved by diner"
+        }
+      },
+      "required": ["role", "name", "email"]
+    },
+    "Restaurant": {
+      "title": "Restaurant Profile",
+      "description": "Restaurant profile created by an owner",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "cuisineTags": { "type": "array" },
+        "area": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 300 },
+        "priceRange": { "type": "string", "enum": ["৳", "৳৳", "৳৳৳"] },
+        "coverPhotoUrl": { "type": "string", "maxLength": 500 },
+        "galleryPhotoUrls": { "type": "array" },
+        "phone": { "type": "string", "maxLength": 20 },
+        "avgRating": { "type": "number" },
+        "reviewCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["ownerId", "name", "area", "address", "priceRange"]
+    },
+    "Review": {
+      "title": "Restaurant Review",
+      "description": "Review written by a diner for a restaurant",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string", "maxLength": 100 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "photoUrl": { "type": "string", "maxLength": 500 },
+        "ownerReply": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "userName", "rating", "comment"]
+    },
+    "Deal": {
+      "title": "Restaurant Deal / Offer",
+      "description": "Special discount or promotional deal for a restaurant",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 500 },
+        "validFrom": { "type": "string" },
+        "validUntil": { "type": "string" },
+        "terms": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "description", "validFrom", "validUntil"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User account documents"
+    },
+    "restaurants/{restaurantId}": {
+      "schema": { "$ref": "#/entities/Restaurant" },
+      "description": "All published restaurant profiles"
+    },
+    "restaurants/{restaurantId}/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Reviews left for a specific restaurant"
+    },
+    "restaurants/{restaurantId}/deals/{dealId}": {
+      "schema": { "$ref": "#/entities/Deal" },
+      "description": "Active and past deals for a specific restaurant"
+    }
+  }
+}
